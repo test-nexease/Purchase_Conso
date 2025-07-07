@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from docx import Document  # <-- Add this line
 
 # Replace file selection with Streamlit file uploader widgets
 st.title("Upload Excel files for each dataset")

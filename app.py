@@ -128,7 +128,7 @@ if all([file_8235, file_8223, file_8236, file_8224_8225_8229, file_Aurora_8226_8
     df_Aurora_8226_8297['Customer Bill Addr'] = df_Aurora_8226_8297[['Party Address1', 'Party Address 2', 'Party Address 4']].agg(
         lambda x: ' '.join(x.dropna().astype(str)), axis=1).str.strip()
     df_Aurora_8226_8297['Reverse Charge'] = df_Aurora_8226_8297['Reverse Charge'].apply(lambda x: 'N' if x == 'No' else 'Y')
-    df_Aurora_8226_8297["Invoice ID"] = df_Aurora_8226_8297["Invoice ID"].astype(str).apply(lambda x: f"'{x}")
+    df_Aurora_8226_8297["Invoice ID"] = df_Aurora_8226_8297["Invoice ID"].astype(str).apply(lambda x: f"'00{x}")
     df_Aurora_8226_8297["POS"] = df_Aurora_8226_8297["Party State"]
 
 
@@ -421,7 +421,7 @@ if all([file_8235, file_8223, file_8236, file_8224_8225_8229, file_Aurora_8226_8
     }
     df_BOE_8226.rename(columns=mapping_BOE_8226,inplace=True)
     df_BOE_8223.rename(columns=mapping_BOE_8223,inplace=True)
-    df_BOE_8226["SAP Key/ Invoice ID/ Voucher no."] = df_BOE_8226["SAP Key/ Invoice ID/ Voucher no."].astype(str).apply(lambda x: f"'{x}")
+    df_BOE_8226["SAP Key/ Invoice ID/ Voucher no."] = df_BOE_8226["SAP Key/ Invoice ID/ Voucher no."].astype(str).apply(lambda x: f"'00{x}")
 
     datarame = [df_BOE_8226,df_BOE_8223]
     processed_df = []

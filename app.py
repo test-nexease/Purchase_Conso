@@ -4,6 +4,20 @@ import pandas as pd
 # Replace file selection with Streamlit file uploader widgets
 st.title("Upload Excel files for each dataset")
 
+st.markdown("## Note:")
+try:
+    def read_docx(file_path):
+        doc = Document(file_path)
+        full_text = []
+        for para in doc.paragraphs:
+            full_text.append(para.text)
+        return "\n".join(full_text)
+
+    note_content = read_docx("Purchase_SOP.docx") 
+    st.text_area("Note Content", note_content, height=300)
+except Exception as e:
+    st.error(f"Failed to load note.docx: {e}")
+
 file_8235 = st.file_uploader("Upload Excel file for SAP-8235", type=["xlsx"])
 file_8223 = st.file_uploader("Upload Excel file for M3-8223", type=["xlsx"])
 file_8236 = st.file_uploader("Upload Excel file for M3-8236", type=["xlsx"])
@@ -113,7 +127,7 @@ if all([file_8235, file_8223, file_8236, file_8224_8225_8229, file_Aurora_8226_8
     df_Aurora_8226_8297['Customer Bill Addr'] = df_Aurora_8226_8297[['Party Address1', 'Party Address 2', 'Party Address 4']].agg(
         lambda x: ' '.join(x.dropna().astype(str)), axis=1).str.strip()
     df_Aurora_8226_8297['Reverse Charge'] = df_Aurora_8226_8297['Reverse Charge'].apply(lambda x: 'N' if x == 'No' else 'Y')
-    df_Aurora_8226_8297["Invoice ID"] = df_Aurora_8226_8297["Invoice ID"].astype(str)
+    df_Aurora_8226_8297["Invoice ID"] = df_Aurora_8226_8297["Invoice ID"].astype(str).apply(lambda x: f"'{x}")
     df_Aurora_8226_8297["POS"] = df_Aurora_8226_8297["Party State"]
 
 
@@ -406,6 +420,8 @@ if all([file_8235, file_8223, file_8236, file_8224_8225_8229, file_Aurora_8226_8
     }
     df_BOE_8226.rename(columns=mapping_BOE_8226,inplace=True)
     df_BOE_8223.rename(columns=mapping_BOE_8223,inplace=True)
+    df_BOE_8226["SAP Key/ Invoice ID/ Voucher no."] = df_BOE_8226["SAP Key/ Invoice ID/ Voucher no."].astype(str).apply(lambda x: f"'{x}")
+
     datarame = [df_BOE_8226,df_BOE_8223]
     processed_df = []
 
